@@ -60,11 +60,20 @@ public class TelaCadastroClientes extends JFrame implements ActionListener {
         String celular = txtCelular.getText();
         String email = txtEmail.getText();
 
+        // Verifica se o CPF já está cadastrado
+        if (ClienteDAO.buscarClientePorCPF(cpf) != null) {
+            JOptionPane.showMessageDialog(this, "CPF já cadastrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+            return; // Sai do método se o CPF já estiver cadastrado
+        }
+
         int id = ClienteDAO.getNextId();
         Cliente cliente = new Cliente(id, nome, cpf, celular, email);
 
         listaClientes.add(cliente);
         ClienteDAO.salvarClientes(listaClientes);
+
+        // Notificação de cadastro realizado com sucesso
+        JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
         System.out.println("Cliente cadastrado: " + cliente);
 

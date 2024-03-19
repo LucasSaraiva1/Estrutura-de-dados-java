@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class TelaConsultaClientes extends JFrame {
-    private JTextArea areaTexto;
+    private JPanel panelClientes;
     private JTextField txtFiltro;
     private JButton btnFiltrar;
     private ArrayList<Cliente> clientes;
@@ -28,10 +28,10 @@ public class TelaConsultaClientes extends JFrame {
         });
         panelFiltro.add(btnFiltrar);
 
-        areaTexto = new JTextArea(10, 30);
-        areaTexto.setEditable(false);
+        panelClientes = new JPanel();
+        panelClientes.setLayout(new BoxLayout(panelClientes, BoxLayout.Y_AXIS));
 
-        JScrollPane scrollPane = new JScrollPane(areaTexto);
+        JScrollPane scrollPane = new JScrollPane(panelClientes);
 
         consultarClientes(""); // Exibir todos os clientes ao iniciar a tela de consulta
 
@@ -39,21 +39,33 @@ public class TelaConsultaClientes extends JFrame {
         getContentPane().add(panelFiltro, BorderLayout.NORTH);
         getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-        setSize(400, 300);
+        setSize(800, 600); // Ajuste do tamanho da tela
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void consultarClientes(String filtro) {
-        areaTexto.setText(""); // Limpar a área de texto antes de exibir os resultados
+        panelClientes.removeAll(); // Limpar o painel de clientes antes de adicionar novos componentes
 
         for (Cliente cliente : clientes) {
             // Verificar se o cliente corresponde ao filtro
             if (cliente.getNome().toLowerCase().contains(filtro.toLowerCase()) ||
-                cliente.getCpf().contains(filtro)) {
-                areaTexto.append(cliente.toString() + "\n");
+                    cliente.getCpf().contains(filtro)) {
+                JPanel panelCliente = new JPanel(new GridLayout(1, 5));
+                panelCliente.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+                panelCliente.add(new JLabel("ID: " + cliente.getId()));
+                panelCliente.add(new JLabel("Nome: " + cliente.getNome()));
+                panelCliente.add(new JLabel("CPF: " + cliente.getCpf()));
+                panelCliente.add(new JLabel("Celular: " + cliente.getCelular()));
+                panelCliente.add(new JLabel("Email: " + cliente.getEmail()));
+
+                panelClientes.add(panelCliente);
             }
         }
+
+        panelClientes.revalidate(); // Atualizar o layout do painel de clientes
+        panelClientes.repaint(); // Repintar o painel de clientes
     }
 }
