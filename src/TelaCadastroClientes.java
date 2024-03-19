@@ -32,12 +32,7 @@ public class TelaCadastroClientes extends JFrame implements ActionListener {
         panel.add(btnCadastrar);
 
         btnVoltarMenu = new JButton("Voltar ao Menu");
-        btnVoltarMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                voltarMenuPrincipal();
-            }
-        });
+        btnVoltarMenu.addActionListener(e -> voltarMenuPrincipal());
         panel.add(btnVoltarMenu);
 
         add(panel);
@@ -64,6 +59,12 @@ public class TelaCadastroClientes extends JFrame implements ActionListener {
         if (nome.isEmpty() || cpf.isEmpty() || celular.isEmpty() || email.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!", "Erro", JOptionPane.ERROR_MESSAGE);
             return; // Sai do método se algum campo estiver vazio
+        }
+
+        // Verificar se o CPF tem exatamente 11 dígitos
+        if (cpf.length() != 11) {
+            JOptionPane.showMessageDialog(this, "O CPF deve conter exatamente 11 dígitos!", "Erro", JOptionPane.ERROR_MESSAGE);
+            return; // Sai do método se o CPF não tiver exatamente 11 dígitos
         }
 
         // Verifica se o CPF já está cadastrado
