@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class TelaConsultaClientes extends JFrame {
@@ -15,16 +13,13 @@ public class TelaConsultaClientes extends JFrame {
         this.clientes = clientes;
 
         JPanel panelFiltro = new JPanel(new FlowLayout());
-        panelFiltro.add(new JLabel("Filtrar por:"));
+        panelFiltro.add(new JLabel("Filtrar por CPF:"));
         txtFiltro = new JTextField(20);
         panelFiltro.add(txtFiltro);
         btnFiltrar = new JButton("Filtrar");
-        btnFiltrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String filtro = txtFiltro.getText();
-                consultarClientes(filtro);
-            }
+        btnFiltrar.addActionListener(e -> {
+            String filtro = txtFiltro.getText().trim();
+            consultarClientes(filtro);
         });
         panelFiltro.add(btnFiltrar);
 
@@ -49,9 +44,8 @@ public class TelaConsultaClientes extends JFrame {
         panelClientes.removeAll(); // Limpar o painel de clientes antes de adicionar novos componentes
 
         for (Cliente cliente : clientes) {
-            // Verificar se o cliente corresponde ao filtro
-            if (cliente.getNome().toLowerCase().contains(filtro.toLowerCase()) ||
-                    cliente.getCpf().contains(filtro)) {
+            // Verificar se o cliente corresponde ao filtro de CPF
+            if (cliente.getCpf().contains(filtro)) {
                 JPanel panelCliente = new JPanel(new GridLayout(1, 5));
                 panelCliente.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
