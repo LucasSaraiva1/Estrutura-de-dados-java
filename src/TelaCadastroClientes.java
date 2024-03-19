@@ -55,10 +55,16 @@ public class TelaCadastroClientes extends JFrame implements ActionListener {
     }
 
     private void cadastrarCliente() {
-        String nome = txtNome.getText();
-        String cpf = txtCpf.getText();
-        String celular = txtCelular.getText();
-        String email = txtEmail.getText();
+        String nome = txtNome.getText().trim();
+        String cpf = txtCpf.getText().trim();
+        String celular = txtCelular.getText().trim();
+        String email = txtEmail.getText().trim();
+
+        // Verificar se algum campo está vazio
+        if (nome.isEmpty() || cpf.isEmpty() || celular.isEmpty() || email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!", "Erro", JOptionPane.ERROR_MESSAGE);
+            return; // Sai do método se algum campo estiver vazio
+        }
 
         // Verifica se o CPF já está cadastrado
         if (ClienteDAO.buscarClientePorCPF(cpf) != null) {
