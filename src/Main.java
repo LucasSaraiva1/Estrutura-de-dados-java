@@ -1,5 +1,5 @@
-import javax.swing.*;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,11 +24,16 @@ public class Main {
 
     private static void cadastrarClientes() {
         ArrayList<Cliente> clientes = ClienteDAO.carregarClientes();
+        if (clientes == null) {
+            clientes = new ArrayList<>();
+        }
         new TelaCadastroClientes(clientes);
     }
 
     private static void consultarClientes() {
         ArrayList<Cliente> clientes = ClienteDAO.carregarClientes();
-        new TelaConsultaClientes(clientes);
+        if (clientes != null) {
+            new TelaConsultaClientes(clientes);
+        }
     }
 }
